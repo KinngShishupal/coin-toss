@@ -1,0 +1,49 @@
+============================================
+HOW TO ADD YOUR SOUND FILES
+============================================
+
+METHOD 1: Using Windows File Explorer
+--------------------------------------
+1. Download your two MP3 sound files
+2. Open Windows File Explorer
+3. Navigate to this folder:
+   D:\REACT_NATIVE_PROJECTS\cointoss\coin-toss\assets\sounds\
+4. Copy/paste or drag your MP3 files here
+5. Rename them to:
+   - coin-flip.mp3
+   - coin-land.mp3
+
+METHOD 2: Using VS Code / Cursor
+---------------------------------
+1. Right-click on the "sounds" folder in the file explorer sidebar
+2. Click "Reveal in File Explorer"
+3. This opens the folder in Windows Explorer
+4. Copy your MP3 files into this folder
+5. Rename them as needed
+
+METHOD 3: Command Line
+----------------------
+If you have the files somewhere else:
+1. Open terminal
+2. Run: copy "path\to\your\flip-sound.mp3" "assets\sounds\coin-flip.mp3"
+3. Run: copy "path\to\your\land-sound.mp3" "assets\sounds\coin-land.mp3"
+
+IMPORTANT: File Names Must Be Exact
+------------------------------------
+- coin-flip.mp3  (lowercase, dash, .mp3)
+- coin-land.mp3  (lowercase, dash, .mp3)
+
+After Adding Files:
+-------------------
+1. Restart your Expo dev server: npx expo start -c
+2. The sound button should become active
+3. Test by flipping the coin!
+
+Where to Get Free Sounds:
+--------------------------
+- Freesound.org
+- Mixkit.co/free-sound-effects
+- Zapsplat.com
+
+Search for: "coin flip", "coin drop", "metal clink"
+
