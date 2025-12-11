@@ -1,0 +1,80 @@
+===============================================
+HOW TO ADD REAL SOUND EFFECTS TO YOUR COIN TOSS APP
+===============================================
+
+The app is set up to play sounds, but you need to add real MP3 files!
+
+STEP 1: GET FREE SOUND EFFECTS
+-------------------------------
+Visit these websites for free sounds:
+
+1. Freesound.org - https://freesound.org/
+   - Search for "coin flip" or "coin spin"
+   - Download MP3 format
+
+2. Mixkit - https://mixkit.co/free-sound-effects/
+   - Browse "Money" or "Metal" categories
+   - Download directly
+
+3. Zapsplat - https://www.zapsplat.com/
+   - Search "coin" sounds
+   - Free with attribution
+
+STEP 2: PREPARE YOUR SOUNDS
+----------------------------
+You need TWO sound files:
+
+1. COIN FLIP sound (when coin starts spinning)
+   - Look for: whoosh, swoosh, spinning sounds
+   - Duration: 1-2 seconds
+   - Example searches: "coin flip", "metal spin", "whoosh"
+
+2. COIN LAND sound (when coin hits surface)
+   - Look for: clink, ding, impact sounds  
+   - Duration: 0.5-1 second
+   - Example searches: "coin drop", "metal clink", "ding"
+
+STEP 3: RENAME FILES
+--------------------
+Rename your downloaded files EXACTLY as:
+   coin-flip.mp3
+   coin-land.mp3
+
+STEP 4: REPLACE FILES
+---------------------
+Replace the placeholder files in:
+   assets/sounds/coin-flip.mp3
+   assets/sounds/coin-land.mp3
+
+STEP 5: RESTART APP
+-------------------
+- Stop your Expo dev server (Ctrl+C)
+- Clear cache: npx expo start -c
+- The sounds should now play!
+
+QUICK TEST SOUNDS
+-----------------
+For quick testing, you can:
+1. Record your own sounds on your phone
+2. Convert them to MP3
+3. Name them correctly and add to the folder
+
+TROUBLESHOOTING
+---------------
+- Sound button shows 🔊 but no sound?
+  → Check that files are named exactly "coin-flip.mp3" and "coin-land.mp3"
+  
+- App crashes when flipping?
+  → Make sure files are valid MP3 format
+  
+- Want to disable sounds?
+  → Tap the 🔊 button to mute (changes to 🔇)
+
+RECOMMENDED FREE SOUNDS
+-----------------------
+Some specific sound IDs from Freesound.org:
+- Coin flip: Search "coin spin metal"
+- Coin land: Search "coin drop table"
+
+Download, rename, and enjoy! 🎵
+

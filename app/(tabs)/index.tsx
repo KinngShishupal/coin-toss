@@ -1,3 +1,4 @@
+import { useAudioPlayer } from 'expo-audio';
 import * as Haptics from 'expo-haptics';
 import { useEffect, useState } from 'react';
 import { Dimensions, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
@@ -74,6 +75,24 @@ export default function CoinTossScreen() {
   const [streak, setStreak] = useState({ type: null as CoinResult, count: 0 });
   const [particles, setParticles] = useState<Particle[]>([]);
   const [showParticles, setShowParticles] = useState(false);
+  const [soundEnabled, setSoundEnabled] = useState(true);
+  const [soundsAvailable, setSoundsAvailable] = useState(false);
+  
+  // Audio players using expo-audio (with try-catch for missing files)
+  let flipPlayer: any = null;
+  let landPlayer: any = null;
+  
+  try {
+    flipPlayer = useAudioPlayer(require('@/assets/sounds/coin-flip.mp3'));
+  } catch (e) {
+    // Sound file not found
+  }
+  
+  try {
+    landPlayer = useAudioPlayer(require('@/assets/sounds/coin-land.mp3'));
+  } catch (e) {
+    // Sound file not found
+  }
   
   const rotation = useSharedValue(0);
   const rotationX = useSharedValue(0);
@@ -82,6 +101,19 @@ export default function CoinTossScreen() {
   const glow = useSharedValue(0);
   const bgPulse = useSharedValue(0);
   const particleScale = useSharedValue(0);
+  
+  // Set audio player volumes and check if sounds are available
+  useEffect(() => {
+    if (flipPlayer && landPlayer) {
+      flipPlayer.volume = 0.7;
+      landPlayer.volume = 0.8;
+      setSoundsAvailable(true);
+      console.log('✅ Sound effects loaded successfully!');
+    } else {
+      console.log('ℹ️  Sound files not found. Add coin-flip.mp3 and coin-land.mp3 to assets/sounds/ to enable sounds.');
+      setSoundsAvailable(false);
+    }
+  }, []);
   
   // Background animation
   useEffect(() => {
@@ -95,7 +127,7 @@ export default function CoinTossScreen() {
     );
   }, []);
 
-  const tossCoin = () => {
+  const tossCoin = async () => {
     if (isFlipping) return;
     
     setIsFlipping(true);
@@ -104,6 +136,16 @@ export default function CoinTossScreen() {
     
     // Haptic feedback on start
     Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Heavy);
+    
+    // Play flip sound
+    if (soundEnabled && flipPlayer) {
+      try {
+        flipPlayer.seekTo(0);
+        flipPlayer.play();
+      } catch (error) {
+        console.log('Error playing flip sound:', error);
+      }
+    }
     
     // Random result
     const isHeads = Math.random() < 0.5;
@@ -154,7 +196,7 @@ export default function CoinTossScreen() {
     );
     
     // Set result after animation
-    setTimeout(() => {
+    setTimeout(async () => {
       const newResult = isHeads ? 'heads' : 'tails';
       setResult(newResult);
       setStats(prev => ({
@@ -179,6 +221,16 @@ export default function CoinTossScreen() {
         withTiming(1, { duration: 400, easing: Easing.out(Easing.back(2)) }),
         withDelay(1000, withTiming(0, { duration: 300 }))
       );
+      
+      // Play landing sound
+      if (soundEnabled && landPlayer) {
+        try {
+          landPlayer.seekTo(0);
+          landPlayer.play();
+        } catch (error) {
+          console.log('Error playing land sound:', error);
+        }
+      }
       
       // Haptic feedback on land
       Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success);
@@ -274,9 +326,20 @@ export default function CoinTossScreen() {
           <Text style={styles.title}>⚡ COIN FLIP ⚡</Text>
           <Text style={styles.subtitle}>NEON EDITION</Text>
         </View>
-        <TouchableOpacity onPress={resetStats} style={styles.resetButton}>
-          <Text style={styles.resetText}>↻</Text>
-        </TouchableOpacity>
+        <View style={styles.headerButtons}>
+          <TouchableOpacity 
+            onPress={() => setSoundEnabled(!soundEnabled)} 
+            style={[styles.soundButton, !soundsAvailable && styles.soundButtonDisabled]}
+            disabled={!soundsAvailable}
+          >
+            <Text style={styles.soundText}>
+              {soundsAvailable ? (soundEnabled ? '🔊' : '🔇') : '🔇'}
+            </Text>
+          </TouchableOpacity>
+          <TouchableOpacity onPress={resetStats} style={styles.resetButton}>
+            <Text style={styles.resetText}>↻</Text>
+          </TouchableOpacity>
+        </View>
       </View>
 
       {/* Streak Display */}
@@ -419,6 +482,33 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     marginTop: 50,
     marginBottom: 10,
+  },
+  headerButtons: {
+    flexDirection: 'row',
+    gap: 10,
+  },
+  soundButton: {
+    backgroundColor: 'rgba(0, 255, 159, 0.2)',
+    width: 50,
+    height: 50,
+    borderRadius: 25,
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderWidth: 2,
+    borderColor: '#00ff9f',
+    shadowColor: '#00ff9f',
+    shadowOffset: { width: 0, height: 0 },
+    shadowOpacity: 0.8,
+    shadowRadius: 10,
+    elevation: 5,
+  },
+  soundText: {
+    fontSize: 24,
+  },
+  soundButtonDisabled: {
+    opacity: 0.3,
+    borderColor: '#666',
+    shadowOpacity: 0.2,
   },
   title: {
     fontSize: 32,
