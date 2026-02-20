@@ -3,6 +3,7 @@
     "name": "coin-toss",
     "slug": "coin-toss",
     "version": "1.0.0",
+    "description": "A simple and fun coin toss app",
     "orientation": "portrait",
     "icon": "./assets/images/icon.jpg",
     "scheme": "cointoss",
@@ -17,6 +18,7 @@
       "supportsTablet": true
     },
     "android": {
+      "versionCode": 1,
       "adaptiveIcon": {
         "backgroundColor": "#E6F4FE",
         "foregroundImage": "./assets/images/android-icon-foreground.png",
@@ -25,7 +27,8 @@
       },
       "edgeToEdgeEnabled": true,
       "predictiveBackGestureEnabled": false,
-      "package": "com.kinngshishupal.cointoss"
+      "package": "com.kinngshishupal.cointoss",
+      "permissions": []
     },
     "web": {
       "output": "static",
